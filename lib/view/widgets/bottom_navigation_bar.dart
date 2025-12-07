@@ -20,7 +20,7 @@ class CustomBottomNavBar extends StatelessWidget {
             color: Colors.grey.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 10,
-            offset: const Offset(0, -1), // changes position of shadow
+            offset: const Offset(0, -1),
           ),
         ],
       ),
@@ -28,8 +28,8 @@ class CustomBottomNavBar extends StatelessWidget {
         currentIndex: selectedIndex,
         onTap: onTap,
         backgroundColor: Colors.white,
-        elevation: 0, // We use Container decoration for shadow instead
-        selectedItemColor: Style.blue800, // Matches your Style.blue800
+        elevation: 0,
+        selectedItemColor: Style.blue800,
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
@@ -37,16 +37,16 @@ class CustomBottomNavBar extends StatelessWidget {
         unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_shipping), // Truck icon for Domestic
+            icon: Icon(Icons.local_shipping),
             label: 'Domestic',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.flight), // Plane icon for International
+            icon: Icon(Icons.flight),
             label: 'International',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard), // Grid icon for History/Menu
-            label: 'History',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
         ],
       ),

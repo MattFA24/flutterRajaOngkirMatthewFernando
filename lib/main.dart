@@ -6,13 +6,9 @@ import 'package:fluttertestweek10/view/pages/pages.dart';
 import 'package:fluttertestweek10/shared/style.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
 Future<void> main() async {
-  // Memastikan binding Flutter sudah diinisialisasi sebelum menjalankan aplikasi
   WidgetsFlutterBinding.ensureInitialized();
-  // Memuat file .env sebelum diakses widget
   await dotenv.load(fileName: ".env");
-
   runApp(const MyApp());
 }
 
@@ -27,12 +23,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter x RajaOngkir API',
         theme: ThemeData(
-
           primaryColor: Style.blue800,
           scaffoldBackgroundColor: Style.grey50,
-          textTheme: Theme.of(
-            context,
-          ).textTheme.apply(fontFamily: GoogleFonts.poppins().fontFamily, bodyColor: Style.black, displayColor: Style.black),
+          textTheme: Theme.of(context).textTheme.apply(
+                fontFamily: GoogleFonts.poppins().fontFamily,
+                bodyColor: Style.black,
+                displayColor: Style.black,
+              ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(Style.blue800),
@@ -59,8 +56,8 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        initialRoute: '/',
-        routes: {'/': (context) => const HomePage()},
+        // POINT THIS TO MainMenuPage
+        home: const MainMenuPage(), 
       ),
     );
   }
