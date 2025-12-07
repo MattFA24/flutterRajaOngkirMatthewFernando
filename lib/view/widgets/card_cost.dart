@@ -1,6 +1,5 @@
 part of 'widgets.dart';
 
-// Widget untuk menampilkan informasi biaya pengiriman dalam bentuk card
 class CardCost extends StatefulWidget {
   final Costs cost;
   const CardCost(this.cost, {super.key});
@@ -10,7 +9,6 @@ class CardCost extends StatefulWidget {
 }
 
 class _CardCostState extends State<CardCost> {
-  // Memformat angka menjadi mata uang Rupiah
   String rupiahMoneyFormatter(int? value) {
     if (value == null) return "Rp0,00";
     final formatter = NumberFormat.currency(
@@ -21,7 +19,6 @@ class _CardCostState extends State<CardCost> {
     return formatter.format(value);
   }
 
-  // Memformat satuan "day" menjadi "hari" pada estimasi pengiriman
   String formatEtd(String? etd) {
     if (etd == null || etd.isEmpty) return '-';
     return etd.replaceAll('day', 'hari').replaceAll('days', 'hari');
@@ -42,6 +39,10 @@ class _CardCostState extends State<CardCost> {
       ),
       color: Colors.white,
       child: ListTile(
+        // ADDED THIS LINE to make it clickable
+        onTap: () {
+          showBottomSheetCost(context, cost);
+        },
         title: Text(
           style: TextStyle(
             color: Colors.blue[800],
