@@ -9,10 +9,9 @@ class CustomBottomNavBar extends StatelessWidget {
   });
 
   void _onItemTapped(BuildContext context, int index) {
-    // If clicking the active tab, do nothing
+    
     if (index == selectedIndex) return;
 
-    // Use pushReplacementNamed to switch screens without building a back stack
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, '/domestic');

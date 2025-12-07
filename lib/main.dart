@@ -57,7 +57,6 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        // === CHANGE: USE ROUTES INSTEAD OF HOME ===
         initialRoute: '/domestic', 
         routes: {
           '/domestic': (context) => const DomesticPage(),
