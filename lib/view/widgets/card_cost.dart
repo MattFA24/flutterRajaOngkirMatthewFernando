@@ -39,31 +39,31 @@ class _CardCostState extends State<CardCost> {
       ),
       color: Colors.white,
       child: ListTile(
-        // ADDED THIS LINE to make it clickable
+        // This triggers the bottom sheet pop-up when the card is tapped
         onTap: () {
           showBottomSheetCost(context, cost);
         },
         title: Text(
+          "${cost.name}: ${cost.service}",
           style: TextStyle(
             color: Colors.blue[800],
             fontWeight: FontWeight.w700,
           ),
-          "${cost.name}: ${cost.service}",
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
+              "Biaya: ${rupiahMoneyFormatter(cost.cost)}",
               style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
-              "Biaya: ${rupiahMoneyFormatter(cost.cost)}",
             ),
             const SizedBox(height: 4),
             Text(
-              style: TextStyle(color: Colors.green[800]),
               "Estimasi sampai: ${formatEtd(cost.etd)}",
+              style: TextStyle(color: Colors.green[800]),
             ),
           ],
         ),
