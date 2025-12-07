@@ -23,13 +23,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter x RajaOngkir API',
         theme: ThemeData(
+          // ... your existing theme code ...
           primaryColor: Style.blue800,
           scaffoldBackgroundColor: Style.grey50,
           textTheme: Theme.of(context).textTheme.apply(
-            fontFamily: GoogleFonts.poppins().fontFamily,
-            bodyColor: Style.black,
-            displayColor: Style.black,
-          ),
+                fontFamily: GoogleFonts.poppins().fontFamily,
+                bodyColor: Style.black,
+                displayColor: Style.black,
+              ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(Style.blue800),
@@ -56,8 +57,13 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        // POINT THIS TO MainMenuPage
-        home: const MainMenuPage(),
+        // === CHANGE: USE ROUTES INSTEAD OF HOME ===
+        initialRoute: '/domestic', 
+        routes: {
+          '/domestic': (context) => const DomesticPage(),
+          '/international': (context) => const InternationalPage(),
+          '/home': (context) => const HomePage(),
+        },
       ),
     );
   }

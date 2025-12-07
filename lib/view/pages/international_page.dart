@@ -37,6 +37,7 @@ class _InternationalPageState extends State<InternationalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const CustomBottomNavBar(selectedIndex: 1),
       body: Stack(
         children: [
           SingleChildScrollView(

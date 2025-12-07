@@ -37,6 +37,7 @@ class _DomesticPageState extends State<DomesticPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const CustomBottomNavBar(selectedIndex: 0),
       body: Stack(
         children: [
           SingleChildScrollView(
