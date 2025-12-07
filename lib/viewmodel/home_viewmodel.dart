@@ -131,4 +131,38 @@ class HomeViewModel with ChangeNotifier {
           setLoading(false);
         });
   }
+
+  // === INTERNATIONAL SECTION ===
+
+  Future<List<Country>> searchDestination(String query) async {
+    // Return empty list if query is too short to save API calls
+    if (query.length < 3) return []; 
+    try {
+      return await _homeRepo.searchInternationalDestination(query);
+    } catch (e) {
+      print("Search error: $e");
+      return [];
+    }
+  }
+
+  // Calculate Function
+  Future checkInternationalShipmentCost(
+    String origin, 
+    String destination, 
+    int weight, 
+    String courier
+  ) async {
+    setLoading(true);
+    setCostList(ApiResponse.loading());
+    
+    _homeRepo.checkInternationalShipmentCost(origin, destination, weight, courier)
+      .then((value) {
+        setCostList(ApiResponse.completed(value));
+        setLoading(false);
+      })
+      .onError((error, stackTrace) {
+        setCostList(ApiResponse.error(error.toString()));
+        setLoading(false);
+      });
+  }
 }

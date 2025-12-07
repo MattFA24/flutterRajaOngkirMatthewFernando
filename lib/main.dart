@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
           primaryColor: Style.blue800,
           scaffoldBackgroundColor: Style.grey50,
           textTheme: Theme.of(context).textTheme.apply(
-                fontFamily: GoogleFonts.poppins().fontFamily,
-                bodyColor: Style.black,
-                displayColor: Style.black,
-              ),
+            fontFamily: GoogleFonts.poppins().fontFamily,
+            bodyColor: Style.black,
+            displayColor: Style.black,
+          ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(Style.blue800),
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         // POINT THIS TO MainMenuPage
-        home: const MainMenuPage(), 
+        home: const MainMenuPage(),
       ),
     );
   }

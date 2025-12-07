@@ -28,7 +28,12 @@ class _ShippingDetailPopup extends StatelessWidget {
     // Helper to format ETD (e.g. "6" -> "6 hari" or "1-2 Days" -> "1-2 hari")
     String formatEtd(String? etd) {
       if (etd == null || etd.isEmpty) return '-';
-      String clean = etd.toLowerCase().replaceAll('days', '').replaceAll('day', '').replaceAll('hari', '').trim();
+      String clean = etd
+          .toLowerCase()
+          .replaceAll('days', '')
+          .replaceAll('day', '')
+          .replaceAll('hari', '')
+          .trim();
       return "$clean hari";
     }
 
@@ -72,7 +77,7 @@ class _ShippingDetailPopup extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.local_shipping,
-                  color: Style.blue800, 
+                  color: Style.blue800,
                   size: 26,
                 ),
               ),
@@ -113,11 +118,7 @@ class _ShippingDetailPopup extends StatelessWidget {
                     color: Colors.grey[400],
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.close,
-                    color: Colors.white,
-                    size: 16,
-                  ),
+                  child: const Icon(Icons.close, color: Colors.white, size: 16),
                 ),
               ),
             ],
@@ -150,7 +151,7 @@ class _ShippingDetailPopup extends StatelessWidget {
         children: [
           // Label Column (Fixed width aligns the colons)
           SizedBox(
-            width: 120, 
+            width: 120,
             child: Text(
               label,
               style: TextStyle(

@@ -13,6 +13,36 @@ class NetworkApiService implements BaseApiServices {
   //Mengembalikan JSON ter-decode atau melempar exception jika terjadi kesalahn
 
   @override
+  Future<dynamic> getApiResponseWithQuery(String endpoint, Map<String, dynamic> queryParams) async {
+    try {
+      final uri = Uri(
+        scheme: 'https',
+        host: Const.baseUrl,
+        path: Const.subUrl + endpoint,
+        queryParameters: queryParams,
+      );
+
+      _logRequest('GET (Query)', uri, Const.apiKey);
+
+      final response = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'key': Const.apiKey,
+        },
+      );
+
+      return _returnResponse(response);
+    } on SocketException {
+      throw NoInternetException('No Internet connection!');
+    } on TimeoutException {
+      throw FetchDataException('Network request time out');
+    } catch (e) {
+      throw FetchDataException('Unexpected error: $e');
+    }
+  }
+
+  @override
   Future<dynamic> getApiResponse(String endpoint) async {
     try {
       final uri = Uri.https(Const.baseUrl, Const.subUrl + endpoint);

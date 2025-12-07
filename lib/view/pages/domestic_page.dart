@@ -59,12 +59,16 @@ class _DomesticPageState extends State<DomesticPage> {
                                 isExpanded: true,
                                 value: selectedCourier,
                                 items: courierOptions
-                                    .map((c) => DropdownMenuItem(
-                                          value: c,
-                                          child: Text(c.toUpperCase()),
-                                        ))
+                                    .map(
+                                      (c) => DropdownMenuItem(
+                                        value: c,
+                                        child: Text(c.toUpperCase()),
+                                      ),
+                                    )
                                     .toList(),
-                                onChanged: (v) => setState(() => selectedCourier = v ?? "jne"),
+                                onChanged: (v) => setState(
+                                  () => selectedCourier = v ?? "jne",
+                                ),
                               ),
                             ),
                             const SizedBox(width: 16),
@@ -72,17 +76,22 @@ class _DomesticPageState extends State<DomesticPage> {
                               child: TextField(
                                 controller: weightController,
                                 keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(labelText: 'Berat (gr)'),
+                                decoration: const InputDecoration(
+                                  labelText: 'Berat (gr)',
+                                ),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // Origin Section
                         const Align(
                           alignment: Alignment.centerLeft,
-                          child: Text("Origin", style: TextStyle(fontWeight: FontWeight.bold)),
+                          child: Text(
+                            "Origin",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                         Row(
                           children: [
@@ -90,26 +99,46 @@ class _DomesticPageState extends State<DomesticPage> {
                             Expanded(
                               child: Consumer<HomeViewModel>(
                                 builder: (context, vm, _) {
-                                  if (vm.provinceList.status == Status.loading) {
-                                    return const SizedBox(height: 40, child: Center(child: CircularProgressIndicator(color: Colors.black)));
+                                  if (vm.provinceList.status ==
+                                      Status.loading) {
+                                    return const SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    );
                                   }
                                   if (vm.provinceList.status == Status.error) {
-                                    return Text(vm.provinceList.message ?? 'Error', style: const TextStyle(color: Colors.red));
+                                    return Text(
+                                      vm.provinceList.message ?? 'Error',
+                                      style: const TextStyle(color: Colors.red),
+                                    );
                                   }
                                   final provinces = vm.provinceList.data ?? [];
-                                  if (provinces.isEmpty) return const Text('Tidak ada provinsi');
+                                  if (provinces.isEmpty)
+                                    return const Text('Tidak ada provinsi');
 
                                   return DropdownButton<int>(
                                     isExpanded: true,
                                     value: selectedProvinceOriginId,
                                     hint: const Text('Pilih provinsi'),
-                                    items: provinces.map((p) => DropdownMenuItem<int>(value: p.id, child: Text(p.name ?? ''))).toList(),
+                                    items: provinces
+                                        .map(
+                                          (p) => DropdownMenuItem<int>(
+                                            value: p.id,
+                                            child: Text(p.name ?? ''),
+                                          ),
+                                        )
+                                        .toList(),
                                     onChanged: (newId) {
                                       setState(() {
                                         selectedProvinceOriginId = newId;
                                         selectedCityOriginId = null;
                                       });
-                                      if (newId != null) vm.getCityOriginList(newId);
+                                      if (newId != null)
+                                        vm.getCityOriginList(newId);
                                     },
                                   );
                                 },
@@ -120,23 +149,66 @@ class _DomesticPageState extends State<DomesticPage> {
                             Expanded(
                               child: Consumer<HomeViewModel>(
                                 builder: (context, vm, _) {
-                                  if (vm.cityOriginList.status == Status.notStarted) return const Text('Pilih provinsi dulu', style: TextStyle(fontSize: 12, color: Colors.grey));
-                                  if (vm.cityOriginList.status == Status.loading) return const SizedBox(height: 40, child: Center(child: CircularProgressIndicator(color: Colors.black)));
-                                  if (vm.cityOriginList.status == Status.error) return Text(vm.cityOriginList.message ?? 'Error', style: const TextStyle(color: Colors.red));
-                                  
-                                  if (vm.cityOriginList.status == Status.completed) {
+                                  if (vm.cityOriginList.status ==
+                                      Status.notStarted)
+                                    return const Text(
+                                      'Pilih provinsi dulu',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    );
+                                  if (vm.cityOriginList.status ==
+                                      Status.loading)
+                                    return const SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    );
+                                  if (vm.cityOriginList.status == Status.error)
+                                    return Text(
+                                      vm.cityOriginList.message ?? 'Error',
+                                      style: const TextStyle(color: Colors.red),
+                                    );
+
+                                  if (vm.cityOriginList.status ==
+                                      Status.completed) {
                                     final cities = vm.cityOriginList.data ?? [];
-                                    if (cities.isEmpty) return const Text('Tidak ada kota', style: TextStyle(fontSize: 12, color: Colors.grey));
-                                    
-                                    final validIds = cities.map((c) => c.id).toSet();
-                                    final validValue = validIds.contains(selectedCityOriginId) ? selectedCityOriginId : null;
+                                    if (cities.isEmpty)
+                                      return const Text(
+                                        'Tidak ada kota',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      );
+
+                                    final validIds = cities
+                                        .map((c) => c.id)
+                                        .toSet();
+                                    final validValue =
+                                        validIds.contains(selectedCityOriginId)
+                                        ? selectedCityOriginId
+                                        : null;
 
                                     return DropdownButton<int>(
                                       isExpanded: true,
                                       value: validValue,
                                       hint: const Text('Pilih kota'),
-                                      items: cities.map((c) => DropdownMenuItem<int>(value: c.id, child: Text(c.name ?? ''))).toList(),
-                                      onChanged: (newId) => setState(() => selectedCityOriginId = newId),
+                                      items: cities
+                                          .map(
+                                            (c) => DropdownMenuItem<int>(
+                                              value: c.id,
+                                              child: Text(c.name ?? ''),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (newId) => setState(
+                                        () => selectedCityOriginId = newId,
+                                      ),
                                     );
                                   }
                                   return const SizedBox.shrink();
@@ -150,7 +222,10 @@ class _DomesticPageState extends State<DomesticPage> {
                         // Destination Section
                         const Align(
                           alignment: Alignment.centerLeft,
-                          child: Text("Destination", style: TextStyle(fontWeight: FontWeight.bold)),
+                          child: Text(
+                            "Destination",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                         Row(
                           children: [
@@ -158,23 +233,47 @@ class _DomesticPageState extends State<DomesticPage> {
                             Expanded(
                               child: Consumer<HomeViewModel>(
                                 builder: (context, vm, _) {
-                                  if (vm.provinceList.status == Status.loading) return const SizedBox(height: 40, child: Center(child: CircularProgressIndicator(color: Colors.black)));
-                                  if (vm.provinceList.status == Status.error) return Text(vm.provinceList.message ?? 'Error', style: const TextStyle(color: Colors.red, fontSize: 12));
-                                  
+                                  if (vm.provinceList.status == Status.loading)
+                                    return const SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    );
+                                  if (vm.provinceList.status == Status.error)
+                                    return Text(
+                                      vm.provinceList.message ?? 'Error',
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    );
+
                                   final provinces = vm.provinceList.data ?? [];
-                                  if (provinces.isEmpty) return const Text('Tidak ada provinsi');
+                                  if (provinces.isEmpty)
+                                    return const Text('Tidak ada provinsi');
 
                                   return DropdownButton<int>(
                                     isExpanded: true,
                                     value: selectedProvinceDestinationId,
                                     hint: const Text('Pilih provinsi'),
-                                    items: provinces.map((p) => DropdownMenuItem<int>(value: p.id, child: Text(p.name ?? ''))).toList(),
+                                    items: provinces
+                                        .map(
+                                          (p) => DropdownMenuItem<int>(
+                                            value: p.id,
+                                            child: Text(p.name ?? ''),
+                                          ),
+                                        )
+                                        .toList(),
                                     onChanged: (newId) {
                                       setState(() {
                                         selectedProvinceDestinationId = newId;
                                         selectedCityDestinationId = null;
                                       });
-                                      if (newId != null) vm.getCityDestinationList(newId);
+                                      if (newId != null)
+                                        vm.getCityDestinationList(newId);
                                     },
                                   );
                                 },
@@ -185,23 +284,73 @@ class _DomesticPageState extends State<DomesticPage> {
                             Expanded(
                               child: Consumer<HomeViewModel>(
                                 builder: (context, vm, _) {
-                                  if (vm.cityDestinationList.status == Status.notStarted) return const Text('Pilih provinsi dulu', style: TextStyle(fontSize: 12, color: Colors.grey));
-                                  if (vm.cityDestinationList.status == Status.loading) return const SizedBox(height: 40, child: Center(child: CircularProgressIndicator(color: Colors.black)));
-                                  if (vm.cityDestinationList.status == Status.error) return Text(vm.cityDestinationList.message ?? 'Error', style: const TextStyle(color: Colors.red, fontSize: 12));
-                                  
-                                  if (vm.cityDestinationList.status == Status.completed) {
-                                    final cities = vm.cityDestinationList.data ?? [];
-                                    if (cities.isEmpty) return const Text('Tidak ada kota', style: TextStyle(fontSize: 12, color: Colors.grey));
-                                    
-                                    final validIds = cities.map((c) => c.id).toSet();
-                                    final validValue = validIds.contains(selectedCityDestinationId) ? selectedCityDestinationId : null;
+                                  if (vm.cityDestinationList.status ==
+                                      Status.notStarted)
+                                    return const Text(
+                                      'Pilih provinsi dulu',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    );
+                                  if (vm.cityDestinationList.status ==
+                                      Status.loading)
+                                    return const SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    );
+                                  if (vm.cityDestinationList.status ==
+                                      Status.error)
+                                    return Text(
+                                      vm.cityDestinationList.message ?? 'Error',
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    );
+
+                                  if (vm.cityDestinationList.status ==
+                                      Status.completed) {
+                                    final cities =
+                                        vm.cityDestinationList.data ?? [];
+                                    if (cities.isEmpty)
+                                      return const Text(
+                                        'Tidak ada kota',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      );
+
+                                    final validIds = cities
+                                        .map((c) => c.id)
+                                        .toSet();
+                                    final validValue =
+                                        validIds.contains(
+                                          selectedCityDestinationId,
+                                        )
+                                        ? selectedCityDestinationId
+                                        : null;
 
                                     return DropdownButton<int>(
                                       isExpanded: true,
                                       value: validValue,
                                       hint: const Text('Pilih kota'),
-                                      items: cities.map((c) => DropdownMenuItem<int>(value: c.id, child: Text(c.name ?? ''))).toList(),
-                                      onChanged: (newId) => setState(() => selectedCityDestinationId = newId),
+                                      items: cities
+                                          .map(
+                                            (c) => DropdownMenuItem<int>(
+                                              value: c.id,
+                                              child: Text(c.name ?? ''),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (newId) => setState(
+                                        () => selectedCityDestinationId = newId,
+                                      ),
                                     );
                                   }
                                   return const SizedBox.shrink();
@@ -211,25 +360,42 @@ class _DomesticPageState extends State<DomesticPage> {
                           ],
                         ),
                         const SizedBox(height: 12),
-                        
+
                         // Button Calculate
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (selectedCityOriginId != null && selectedCityDestinationId != null && weightController.text.isNotEmpty && selectedCourier.isNotEmpty) {
-                                final weight = int.tryParse(weightController.text) ?? 0;
+                              if (selectedCityOriginId != null &&
+                                  selectedCityDestinationId != null &&
+                                  weightController.text.isNotEmpty &&
+                                  selectedCourier.isNotEmpty) {
+                                final weight =
+                                    int.tryParse(weightController.text) ?? 0;
                                 if (weight <= 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Berat harus lebih dari 0'), backgroundColor: Colors.redAccent));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Berat harus lebih dari 0'),
+                                      backgroundColor: Colors.redAccent,
+                                    ),
+                                  );
                                   return;
                                 }
                                 homeViewModel.checkShipmentCost(
-                                  selectedCityOriginId!.toString(), "city",
-                                  selectedCityDestinationId!.toString(), "city",
-                                  weight, selectedCourier,
+                                  selectedCityOriginId!.toString(),
+                                  "city",
+                                  selectedCityDestinationId!.toString(),
+                                  "city",
+                                  weight,
+                                  selectedCourier,
                                 );
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Lengkapi semua field!'), backgroundColor: Colors.redAccent));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Lengkapi semua field!'),
+                                    backgroundColor: Colors.redAccent,
+                                  ),
+                                );
                               }
                             },
                             child: const Text("Hitung Ongkir"),
@@ -240,7 +406,7 @@ class _DomesticPageState extends State<DomesticPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Result Card
                 Card(
                   color: Colors.blue[50],
@@ -249,21 +415,51 @@ class _DomesticPageState extends State<DomesticPage> {
                     builder: (context, vm, _) {
                       switch (vm.costList.status) {
                         case Status.loading:
-                          return const Padding(padding: EdgeInsets.all(16.0), child: Center(child: CircularProgressIndicator(color: Colors.black)));
+                          return const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.black,
+                              ),
+                            ),
+                          );
                         case Status.error:
-                          return Padding(padding: const EdgeInsets.all(16.0), child: Center(child: Text(vm.costList.message ?? 'Error', style: const TextStyle(color: Colors.red))));
+                          return Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(
+                              child: Text(
+                                vm.costList.message ?? 'Error',
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          );
                         case Status.completed:
-                          if (vm.costList.data == null || vm.costList.data!.isEmpty) {
-                            return const Padding(padding: EdgeInsets.all(16.0), child: Center(child: Text("Tidak ada data ongkir.")));
+                          if (vm.costList.data == null ||
+                              vm.costList.data!.isEmpty) {
+                            return const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Center(
+                                child: Text("Tidak ada data ongkir."),
+                              ),
+                            );
                           }
                           return ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: vm.costList.data?.length ?? 0,
-                            itemBuilder: (context, index) => CardCost(vm.costList.data!.elementAt(index)),
+                            itemBuilder: (context, index) =>
+                                CardCost(vm.costList.data!.elementAt(index)),
                           );
                         default:
-                          return const Padding(padding: EdgeInsets.all(16.0), child: Center(child: Text("Pilih kota dan klik Hitung Ongkir terlebih dulu.", style: TextStyle(color: Colors.black))));
+                          return const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Center(
+                              child: Text(
+                                "Pilih kota dan klik Hitung Ongkir terlebih dulu.",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          );
                       }
                     },
                   ),
@@ -271,14 +467,16 @@ class _DomesticPageState extends State<DomesticPage> {
               ],
             ),
           ),
-          
+
           // Overlay Loading
           Consumer<HomeViewModel>(
             builder: (context, vm, _) {
               if (vm.isLoading) {
                 return Container(
                   color: Colors.black.withOpacity(0.5),
-                  child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+                  child: const Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ),
                 );
               }
               return const SizedBox.shrink();

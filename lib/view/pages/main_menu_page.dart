@@ -11,9 +11,9 @@ class _MainMenuPageState extends State<MainMenuPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const DomesticPage(),      // 0: Domestic
-    const InternationalPage(), // 1: International
-    const HomePage(),          // 2: Home (Text only)
+    const DomesticPage(), 
+    const InternationalPage(), 
+    const HomePage(), 
   ];
 
   void _onItemTapped(int index) {
@@ -26,7 +26,8 @@ class _MainMenuPageState extends State<MainMenuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: CustomBottomNavBar( // <--- The Nav Bar
+      bottomNavigationBar: CustomBottomNavBar(
+        // <--- The Nav Bar
         selectedIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),

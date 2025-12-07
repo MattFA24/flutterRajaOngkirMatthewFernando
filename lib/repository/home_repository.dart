@@ -73,4 +73,53 @@ class HomeRepository {
 
     return data.map((e) => Costs.fromJson(e)).toList();
   }
+
+  // === ADD THIS: Search International Countries ===
+  Future<List<Country>> searchInternationalDestination(String query) async {
+    final response = await _apiServices.getApiResponseWithQuery(
+      'destination/international-destination',
+      {
+        'search': query,
+        'limit': '100', // Good to add a limit
+      },
+    );
+
+    final meta = response['meta'];
+    if (meta == null || meta['status'] != 'success') {
+      throw Exception("API Error: ${meta?['message'] ?? 'Unknown error'}");
+    }
+
+    final data = response['data'];
+    if (data is! List) return [];
+
+    return data.map((e) => Country.fromJson(e)).toList();
+  }
+
+  // === ADD THIS: Calculate International Cost ===
+  Future<List<Costs>> checkInternationalShipmentCost(
+    String originCityId,
+    String destinationCountryId,
+    int weight,
+    String courier,
+  ) async {
+    final response = await _apiServices.postApiResponse(
+      'calculate/international-cost',
+      {
+        "origin": originCityId,
+        "destination": destinationCountryId,
+        "weight": weight.toString(),
+        "courier": courier,
+      },
+    );
+
+    final meta = response['meta'];
+    if (meta == null || meta['status'] != 'success') {
+      throw Exception("API Error: ${meta?['message'] ?? 'Unknown error'}");
+    }
+
+    final data = response['data'];
+    if (data is! List) return [];
+
+    return data.map((e) => Costs.fromJson(e)).toList();
+  }
 }
